@@ -88,6 +88,7 @@ index.html
 ### Routes
 
 1. Use resolvers to inject data.
+
 _Why_: The page is rendered only when all data is available.
 
 ```js
@@ -132,6 +133,7 @@ $stateProvider.state('customers.show', {
 ```
 
 2. Use query parameters to store route state. For example, the current `offset` and `limit` when paginating.
+
 _Why_: The current view should be accurately reflected in the URL.
 
 ```js
@@ -166,6 +168,7 @@ function nextPage() {
 #### Rules:
 
 1. Use element directives when content is injected, else use attribute directives.
+
 _Why_: Separates responsibility: element directives add content; attribute directives add behaviour; class attributes add style.
 
 ```html
@@ -196,6 +199,7 @@ _Why_: Separates responsibility: element directives add content; attribute direc
 ```
 
 2. Use an isolate scope for element directives. Use inherited scope for attribute directives.
+
 _Why_: Using an isolate scope forces you to expose an API by giving the component all the data it needs. This increases reusability and testability. Attribute directives should not have an isolate scope because doing so overwrites the current scope.
 
 ```js
@@ -245,6 +249,7 @@ angular.module('AlertListComponentModule', [])
 ```
 
 3. When using isolate-scope properties, always `bindToController`.
+
 _Why_: It explicitly shows what variables are shared via the controller.
 
 ```js
@@ -280,6 +285,7 @@ angular.module('AlertListComponentModule', [])
 ```
 
 4. Tear down directives, subscribe to `$scope.$on('$destroy', ...)` to get rid of any event listeners or DOM nodes created outside the directive element.
+
 _Why_: It avoids memory leaks and duplicate event listeners being bound when the directive is re-created.
 
 ```js
@@ -338,6 +344,7 @@ angular.module('AdminExpandComponentModule', [])
 #### Rules:
 
 1. Use [`controllerAs`](http://toddmotto.com/digging-into-angulars-controller-as-syntax/) syntax.
+
 _Why_: It explicitly shows what controller a variable belongs to, by writing `{{ ctrl.foo }}` instead of `{{ foo }}`
 
 ```js
@@ -390,6 +397,7 @@ angular.module('AlertListComponentModule', [])
 ```
 
 2. Inject ready data instead of loading it in the controller.
+
 _Why_:
 - 2.1. Simplifies testing with mock data.
 - 2.2. Separates concerns: data is resolved in the route and used in the controller.
@@ -435,6 +443,7 @@ angular.module('CustomersShowControllerModule', [])
 ```
 
 3. Extend a controller’s properties onto the controller.
+
 _Why_: What is being exported is clear.
 
 ```js
@@ -477,6 +486,7 @@ angular.module('OrganisationRolesNewControllerModule', [])
 ```
 
 4. Only extend the controller with properties used in templates.
+
 _Why_: Adding unused properties to the digest cycle is expensive.
 
 ```js
@@ -540,6 +550,7 @@ angular.module('WebhooksIndexControllerModule', [])
 ```
 
 5. Store presentation logic in controllers and business logic in services.
+
 _Why_:
   - 5.1. Simplifies testing business logic.
   - 5.2. Controllers are glue code, and therefore require integration tests, not unit tests.
@@ -590,6 +601,7 @@ angular.module('WebhooksControllerModule', [])
 ```
 
 6. Only instantiate controllers through routes or directives.
+
 _Why_: Allows reuse of controllers and encourages component encapsulation.
 
 ```js
@@ -628,6 +640,7 @@ angular.module('AlertListComponentModule', [])
 #### Rules:
 
 1. Create one module per file and don’t alter a module other than where it is defined.
+
 _Why_:
   - 1.1. Prevents polluting the global scope.
   - 1.2. Simplifies unit testing by declaring all dependencies needed to run each module.
@@ -644,6 +657,7 @@ angular.module('app')
 ```
 
 2. Use ES6 module system and reference other modules using Angular Module’s `name` property.
+
 _Why_:
   - 2.1. Encapsulates all required files, making unit testing easier and error feedback more specific.
   - 2.2. Simplifies upgrading to Angular 2.0, which uses ES6 modules.
@@ -673,6 +687,7 @@ export var UsersPasswordEditControllerModule = angular.module('UsersPasswordEdit
 ```
 
 3. Use relative imports only when importing from the current directory or any of its children. Use absolute paths when referencing modules in parent directories.
+
 _Why_: Makes it easier to edit directories.
 
 ```js
@@ -694,6 +709,7 @@ import {OrganisationIdInterceptorModule} from '../services/organisation-id-inter
 ### Templates
 
 1. Use the one-time binding syntax when data does not change after first render.
+
 _Why_: Avoids unnecessary expensive `$watch`ers.
 
 ```html
@@ -790,10 +806,13 @@ angular.element(document).ready(function() {
 ### Anti-Patterns
 
 1. Don’t use the `$` name space in property names (e.g. `$scope.$isActive = true`).
+
 _Why_: Makes clear what is an Angular internal.
 
 2. Don't use globals. Resolve all dependencies using Dependency Injection.
+
 _Why_: Using DI makes testing and refactoring easier.
 
 3. Don't do `if (!$scope.$$phase) $scope.$apply()`, it means your `$scope.$apply()` isn't high enough in the call stack.
+
 _Why_: You should `$scope.$apply()` as close to the asynchronous event binding as possible.
